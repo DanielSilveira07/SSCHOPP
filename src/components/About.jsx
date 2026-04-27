@@ -1,24 +1,25 @@
 import { motion } from 'framer-motion'
 import { Truck, Snowflake, PartyPopper } from 'lucide-react'
+import { asset } from '../lib/assets.js'
 
 const CARDS = [
   {
     icon: Truck,
     title: 'Chega Rapidinho',
     body: 'Receba sua chopeira e barril no prazo combinado. Sem atrasos, sem surpresas.',
-    photo: '/photos/photo-5.jpg',
+    photo: asset('/photos/photo-5.jpg'),
   },
   {
     icon: Snowflake,
     title: 'Sempre Gelado e Fresco',
     body: 'Barris de primeira qualidade e equipamentos de última geração para o melhor sabor.',
-    photo: '/photos/photo-6.jpg',
+    photo: asset('/photos/photo-6.jpg'),
   },
   {
     icon: PartyPopper,
     title: 'Você Aproveita a Festa',
     body: 'Tudo chega pronto e seguro. Aproveite seu momento — a gente cuida da logística.',
-    photo: '/photos/photo-7.jpg',
+    photo: asset('/photos/photo-7.jpg'),
   },
 ]
 

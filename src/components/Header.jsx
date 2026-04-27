@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
+import { asset } from '../lib/assets.js'
 
 const NAV = [
   { href: '#sobre', label: 'Quem Somos' },
@@ -30,7 +31,7 @@ export default function Header() {
     >
       <div className="container-wide flex items-center justify-between py-5">
         <a href="#" className="flex items-center gap-3 group">
-          <img src="/logo.png" alt="SS Chopp" className="h-10 w-auto" />
+          <img src={asset('/logo.png')} alt="SS Chopp" className="h-10 w-auto" />
           <span className="hidden sm:block display text-xl tracking-wide text-foam-50 group-hover:text-amber-300 transition-colors">
             SS CHOPP
           </span>

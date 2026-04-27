@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Gift, Check, BookOpen, Percent } from 'lucide-react'
+import { asset } from '../lib/assets.js'
 
 const PERKS = [
   { icon: Percent, label: '10% OFF na primeira contratação' },
@@ -26,7 +27,7 @@ export default function LeadMagnet() {
       <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/photos/photo-5.jpg)' }}
+          style={{ backgroundImage: `url(${asset('/photos/photo-5.jpg')})` }}
         />
         <div className="absolute inset-0 bg-ink-950/85" />
         <div

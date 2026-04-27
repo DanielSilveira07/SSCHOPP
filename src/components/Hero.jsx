@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Star } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
+import { asset } from '../lib/assets.js'
 
 export default function Hero() {
   return (
@@ -9,7 +10,7 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/photos/photo-2.jpg)' }}
+          style={{ backgroundImage: `url(${asset('/photos/photo-2.jpg')})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/40" />
@@ -89,7 +90,7 @@ export default function Hero() {
                     key={i}
                     className="w-9 h-9 rounded-full border-2 border-ink-950 -ml-2 first:ml-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: `url(/photos/photo-${i + 4}.jpg)`,
+                      backgroundImage: `url(${asset(`/photos/photo-${i + 4}.jpg`)})`,
                     }}
                   />
                 ))}
@@ -121,7 +122,7 @@ export default function Hero() {
             <div className="relative aspect-[4/5] overflow-hidden border border-amber-300/20">
               <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: 'url(/photos/photo-1.jpg)' }}
+                style={{ backgroundImage: `url(${asset('/photos/photo-1.jpg')})` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-transparent" />
               {/* Sticker */}

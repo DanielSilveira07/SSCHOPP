@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
+import { asset } from '../lib/assets.js'
 
 const REVIEWS = [
   {
@@ -7,42 +8,42 @@ const REVIEWS = [
       'Meus amigos pediram o contato de vocês. Recomendo demais! O chopp estava sempre gelado, perfeito do começo ao fim da festa.',
     name: 'Paulo Henrique',
     role: 'Aniversário 30 anos',
-    photo: '/photos/photo-1.jpg',
+    photo: asset('/photos/photo-1.jpg'),
   },
   {
     quote:
       'Simples, confiável e delicioso. Voltaria a contratar mil vezes! A equipe chegou no horário e montou tudo num piscar de olhos.',
     name: 'Mariana Costa',
     role: 'Confraternização da empresa',
-    photo: '/photos/photo-4.jpg',
+    photo: asset('/photos/photo-4.jpg'),
   },
   {
     quote:
       'Vocês transformaram nossa formatura em algo inesquecível! Chopeira moderna, barris caprichados, atendimento de outro nível.',
     name: 'Lucas Almeida',
     role: 'Formatura · 22 anos',
-    photo: '/photos/photo-8.jpg',
+    photo: asset('/photos/photo-8.jpg'),
   },
   {
     quote:
       'Atendimento impecável e qualidade incrível. Foi a primeira vez que eu não me preocupei com nada na minha festa.',
     name: 'Rafaela Souza',
     role: 'Casamento ao ar livre',
-    photo: '/photos/photo-3.jpg',
+    photo: asset('/photos/photo-3.jpg'),
   },
   {
     quote:
       'O chopp ficou na temperatura perfeita o evento todo. Já marcamos o próximo. Indispensável.',
     name: 'Bruno Tavares',
     role: 'Churrasco corporativo',
-    photo: '/photos/photo-6.jpg',
+    photo: asset('/photos/photo-6.jpg'),
   },
   {
     quote:
       'Profissionalismo do início ao fim. A chopeira fez sucesso e os convidados não pararam de elogiar a qualidade.',
     name: 'Juliana Mendes',
     role: 'Reunião de família',
-    photo: '/photos/photo-9.jpg',
+    photo: asset('/photos/photo-9.jpg'),
   },
 ]
 

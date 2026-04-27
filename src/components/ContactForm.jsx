@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check, Send } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
+import { asset } from '../lib/assets.js'
 
 export default function ContactForm() {
   const [form, setForm] = useState({
@@ -27,7 +28,7 @@ export default function ContactForm() {
       <div className="absolute inset-0 -z-10">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/photos/photo-7.jpg)' }}
+          style={{ backgroundImage: `url(${asset('/photos/photo-7.jpg')})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/95 to-ink-950" />
       </div>

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { AlertTriangle } from 'lucide-react'
+import { asset } from '../lib/assets.js'
 
 export default function AgeGate({ onConfirm, onDeny }) {
   return (
@@ -18,7 +19,7 @@ export default function AgeGate({ onConfirm, onDeny }) {
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center scale-110"
-            style={{ backgroundImage: 'url(/photos/photo-3.jpg)' }}
+            style={{ backgroundImage: `url(${asset('/photos/photo-3.jpg')})` }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-ink-950/90 via-ink-950/85 to-ink-950/95" />
           <div

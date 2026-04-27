@@ -1,5 +1,6 @@
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react'
 import { BUSINESS, buildWhatsAppUrl } from '../lib/constants.js'
+import { asset } from '../lib/assets.js'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -10,7 +11,7 @@ export default function Footer() {
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="SS Chopp" className="h-12 w-auto" />
+              <img src={asset('/logo.png')} alt="SS Chopp" className="h-12 w-auto" />
               <span className="display text-2xl text-foam-50">SS CHOPP</span>
             </div>
             <p className="mt-5 text-foam-50/60 text-sm leading-relaxed max-w-md">
