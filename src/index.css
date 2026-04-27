@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Anton-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/Poppins-Black.ttf') format('truetype');
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-weight: 300;
+    background-color: #08070a;
+    color: #fbf8ee;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: #d4881f;
+    color: #08070a;
+  }
+}
+
+@layer components {
+  .display {
+    font-family: 'Anton', Impact, sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
+  }
+
+  .container-narrow {
+    @apply mx-auto max-w-6xl px-6 md:px-10;
+  }
+
+  .container-wide {
+    @apply mx-auto max-w-7xl px-6 md:px-10;
+  }
+
+  .label-eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-amber-300;
+  }
+
+  .grain-overlay {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--tw-bg-grain, url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"));
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-amber-400 px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-ink-950 transition-all duration-300 hover:bg-amber-300 hover:tracking-[0.22em] active:scale-[0.98];
+    box-shadow: 0 10px 32px -10px rgba(212, 136, 31, 0.7);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 border border-foam-50/20 px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-foam-50 transition-all duration-300 hover:border-amber-300 hover:text-amber-300;
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 bg-[#25D366] px-7 py-4 text-sm font-bold uppercase tracking-[0.16em] text-ink-950 transition-all duration-300 hover:bg-[#1ebe57] active:scale-[0.98];
+    box-shadow: 0 10px 32px -10px rgba(37, 211, 102, 0.6);
+  }
+
+  .field-input {
+    @apply w-full bg-transparent border-b border-foam-50/20 py-3 text-foam-50 placeholder:text-foam-50/40 transition-colors duration-300 focus:border-amber-300 focus:outline-none;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .field-label {
+    @apply block text-[11px] font-semibold uppercase tracking-[0.22em] text-foam-50/60 mb-1;
+  }
+}
+
+/* Scrollbar (subtle) */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #08070a;
+}
+::-webkit-scrollbar-thumb {
+  background: #332821;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4881f;
+}
