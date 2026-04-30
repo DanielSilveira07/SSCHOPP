@@ -9,12 +9,8 @@ export default function Hero() {
       {/* Atmospheric backdrop */}
       <div className="absolute inset-0 -z-10">
         <div
-          className="absolute inset-0 bg-center"
-          style={{
-            backgroundImage: `url(${asset('/photos/photo-2.jpg')})`,
-            backgroundSize: '120%', // ← altere aqui: 100% = original, 120% = zoom +20%, 150% = zoom +50%
-            backgroundPosition: 'center 30%', // ← posição: "center top/center/bottom" ou "50% 30%"
-          }}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${asset('/photos/photo-2.jpg')})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/40" />
@@ -125,8 +121,12 @@ export default function Hero() {
             <div className="absolute -inset-6 bg-gradient-to-tr from-amber-400/30 to-transparent blur-2xl" />
             <div className="relative aspect-[4/5] overflow-hidden border border-amber-300/20">
               <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${asset('/photos/photo-1.jpg')})` }}
+                className="absolute inset-0 bg-center"
+                style={{
+                  backgroundImage: `url(${asset('/photos/photo-1.jpg')})`,
+                  backgroundSize: '200%', // ← altere: 100% normal, 120% zoom +20%, 150% zoom +50%
+                  backgroundPosition: '55% bottom', // ← posição: 'center top', 'center 50%', '50% 30%'
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-transparent" />
               {/* Sticker */}
