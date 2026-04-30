@@ -74,11 +74,11 @@ export default function Method() {
                   className="relative text-center"
                 >
                   {/* Numbered circle */}
-                  <div className="relative inline-flex">
-                    <div className="absolute inset-0 bg-amber-400/20 blur-xl" />
-                    <div className="relative h-24 w-24 rounded-full bg-ink-900 border border-amber-300/30 flex items-center justify-center mx-auto group hover:border-amber-300 transition-colors">
-                      <Icon size={28} className="text-amber-300" strokeWidth={1.6} />
-                      <span className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-amber-400 text-ink-950 flex items-center justify-center text-xs font-black">
+                  <div className="relative inline-flex group/circle">
+                    <div className="absolute inset-0 bg-amber-400/20 blur-xl transition-opacity duration-300 group-hover/circle:opacity-150" />
+                    <div className="relative h-24 w-24 rounded-full bg-ink-900 border border-amber-300/30 flex items-center justify-center mx-auto hover:border-amber-300 hover:scale-110 hover:-translate-y-1 transition-all duration-300">
+                      <Icon size={28} className="text-amber-300 transition-transform duration-300 group-hover/circle:rotate-12" strokeWidth={1.6} />
+                      <span className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-amber-400 text-ink-950 flex items-center justify-center text-xs font-black transition-transform duration-300 group-hover/circle:scale-110">
                         0{i + 1}
                       </span>
                     </div>

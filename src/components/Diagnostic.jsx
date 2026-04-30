@@ -71,7 +71,7 @@ export default function Diagnostic() {
               </div>
 
               {/* Solution */}
-              <div className="border-l-2 border-amber-400 pl-5 md:pl-7 py-3 bg-gradient-to-r from-amber-400/[0.04] to-transparent">
+              <div className="border-l-2 border-amber-400 pl-5 md:pl-7 py-3 bg-gradient-to-r from-amber-400/[0.04] to-transparent transition-transform duration-300 group-hover:translate-x-1.5">
                 <p className="text-[10px] uppercase tracking-[0.28em] text-amber-300 font-bold mb-2">
                   Como resolvemos
                 </p>

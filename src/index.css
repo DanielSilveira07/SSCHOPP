@@ -95,18 +95,19 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-amber-400 px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-ink-950 transition-all duration-300 hover:bg-amber-300 hover:tracking-[0.22em] active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 bg-amber-400 px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-ink-950 transition-all duration-300 hover:bg-amber-300 hover:tracking-[0.22em] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
     box-shadow: 0 10px 32px -10px rgba(245, 203, 25, 0.75);
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 bg-[#25D366] px-7 py-4 text-sm font-bold uppercase tracking-[0.16em] text-ink-950 transition-all duration-300 hover:bg-[#1ebe57] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
+    box-shadow: 0 10px 32px -10px rgba(37, 211, 102, 0.6);
   }
 
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 border border-foam-50/20 px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-foam-50 transition-all duration-300 hover:border-amber-300 hover:text-amber-300;
   }
 
-  .btn-whatsapp {
-    @apply inline-flex items-center justify-center gap-2 bg-[#25D366] px-7 py-4 text-sm font-bold uppercase tracking-[0.16em] text-ink-950 transition-all duration-300 hover:bg-[#1ebe57] active:scale-[0.98];
-    box-shadow: 0 10px 32px -10px rgba(37, 211, 102, 0.6);
-  }
 
   .field-input {
     @apply w-full bg-transparent border-b border-foam-50/20 py-3 text-foam-50 placeholder:text-foam-50/40 transition-colors duration-300 focus:border-amber-300 focus:outline-none;

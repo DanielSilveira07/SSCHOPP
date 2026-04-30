@@ -56,7 +56,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.6, delay: i * 0.12 }}
-                className="group relative overflow-hidden border border-foam-50/10 hover:border-amber-300/40 transition-all duration-500 bg-ink-900"
+                className="group relative overflow-hidden border border-foam-50/10 hover:border-amber-300/40 hover:-translate-y-2 hover:shadow-[0_16px_40px_-12px_rgba(245,203,25,0.18)] transition-all duration-500 bg-ink-900"
               >
                 {/* Photo top */}
                 <div className="relative h-56 overflow-hidden">

@@ -88,7 +88,7 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
-              className="relative bg-ink-900 border border-foam-50/10 hover:border-amber-300/40 p-7 md:p-8 transition-all duration-500 group"
+              className="relative bg-ink-900 border border-foam-50/10 hover:border-amber-300/40 hover:-translate-y-2 hover:shadow-[0_16px_40px_-12px_rgba(245,203,25,0.15)] p-7 md:p-8 transition-all duration-500 group"
             >
               <Quote
                 size={28}
@@ -100,7 +100,7 @@ export default function Testimonials() {
               </blockquote>
               <figcaption className="mt-7 pt-5 border-t border-foam-50/10 flex items-center gap-3">
                 <div
-                  className="h-11 w-11 rounded-full bg-cover bg-center border border-amber-300/20"
+                  className="h-11 w-11 rounded-full bg-cover bg-center border border-amber-300/20 transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundImage: `url(${r.photo})` }}
                 />
                 <div>

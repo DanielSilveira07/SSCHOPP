@@ -88,7 +88,7 @@ export default function Hero() {
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}
-                    className="w-9 h-9 rounded-full border-2 border-ink-950 -ml-2 first:ml-0 bg-cover bg-center"
+                    className="w-9 h-9 rounded-full border-2 border-ink-950 -ml-2 first:ml-0 bg-cover bg-center transition-transform duration-200 hover:scale-125 hover:z-10 hover:-translate-y-1"
                     style={{
                       backgroundImage: `url(${asset(`/photos/photo-${i + 4}.jpg`)})`,
                     }}
