@@ -46,7 +46,7 @@ export default function Method() {
       <div className="container-wide relative">
         <div className="text-center mb-20 max-w-3xl mx-auto">
           <p className="label-eyebrow justify-center">Método SS Chopp</p>
-          <h2 className="display mt-4 text-5xl md:text-7xl text-foam-50">
+          <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50">
             Em <span className="text-amber-300">4 passos</span>,
             <br />
             seu chopp tá na festa.

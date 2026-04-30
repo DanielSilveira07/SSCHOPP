@@ -73,7 +73,7 @@ export default function ContactForm() {
   }
 
   return (
-    <section id="contato" className="relative py-28 md:py-36 overflow-hidden">
+    <section id="contato" className="relative py-16 sm:py-28 md:py-36 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -86,7 +86,7 @@ export default function ContactForm() {
         {/* LEFT: copy */}
         <div className="lg:col-span-5 lg:sticky lg:top-32">
           <p className="label-eyebrow">Vamos juntos</p>
-          <h2 className="display mt-4 text-5xl md:text-7xl text-foam-50 leading-[0.92]">
+          <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50 leading-[0.92]">
             Bora trazer
             <br />
             <span className="text-amber-300">chopp de qualidade</span>
@@ -150,196 +150,124 @@ export default function ContactForm() {
           ) : (
             <form
               onSubmit={onSubmit}
-              className="bg-ink-900/80 backdrop-blur-md border border-foam-50/10 grain-overlay p-8 md:p-12"
+              className="bg-ink-900/80 backdrop-blur-md border border-foam-50/10 grain-overlay p-4 sm:p-8 md:p-12"
             >
               <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300 font-bold mb-2">
                 Formulário · Orçamento gratuito
               </p>
-              <h3 className="display text-3xl md:text-4xl text-foam-50">
+              <h3 className="display text-2xl sm:text-3xl md:text-4xl text-foam-50">
                 Conte sobre sua festa
               </h3>
 
               {/* Personal */}
-              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="md:col-span-2">
+              <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                <div className="sm:col-span-2">
                   <label htmlFor="name" className="field-label">Seu Nome</label>
-                  <input
-                    id="name"
-                    type="text"
-                    required
-                    placeholder="Como podemos te chamar?"
-                    value={form.name}
-                    onChange={update('name')}
-                    className="field-input"
-                  />
+                  <input id="name" type="text" required placeholder="Como podemos te chamar?"
+                    value={form.name} onChange={update('name')} className="field-input" />
                 </div>
-
                 <div>
                   <label htmlFor="email" className="field-label">E-mail</label>
-                  <input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="seu@email.com"
-                    value={form.email}
-                    onChange={update('email')}
-                    className="field-input"
-                  />
+                  <input id="email" type="email" required placeholder="seu@email.com"
+                    value={form.email} onChange={update('email')} className="field-input" />
                 </div>
-
                 <div>
                   <label htmlFor="phone" className="field-label">Telefone / WhatsApp</label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    required
-                    placeholder="(11) 99999-9999"
-                    value={form.phone}
-                    onChange={update('phone')}
-                    className="field-input"
-                  />
+                  <input id="phone" type="tel" required placeholder="(11) 99999-9999"
+                    value={form.phone} onChange={update('phone')} className="field-input" />
                 </div>
               </div>
 
               {/* Address block */}
-              <div className="mt-12 pt-8 border-t border-foam-50/10">
-                <div className="flex items-center gap-2 mb-6">
-                  <MapPin size={16} className="text-amber-300" />
+              <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-foam-50/10">
+                <div className="flex items-center gap-2 mb-5 sm:mb-6">
+                  <MapPin size={15} className="text-amber-300 shrink-0" />
                   <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300 font-bold">
                     Endereço da festa
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-6 gap-x-8 gap-y-8">
-                  {/* CEP with autofill */}
-                  <div className="md:col-span-2">
+                {/* 2-col mobile, 6-col md+ */}
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-6 sm:gap-y-8">
+                  {/* CEP */}
+                  <div className="col-span-1 md:col-span-2">
                     <label htmlFor="cep" className="field-label">CEP</label>
                     <div className="relative">
-                      <input
-                        id="cep"
-                        type="text"
-                        inputMode="numeric"
-                        required
-                        placeholder="00000-000"
-                        value={form.cep}
-                        onChange={handleCepChange}
-                        onBlur={lookupCep}
-                        maxLength={9}
-                        className="field-input pr-9"
-                      />
+                      <input id="cep" type="text" inputMode="numeric" required
+                        placeholder="00000-000" value={form.cep}
+                        onChange={handleCepChange} onBlur={lookupCep} maxLength={9}
+                        className="field-input pr-7" />
                       {cepLoading && (
-                        <Loader2 size={16} className="absolute right-0 top-3 text-amber-300 animate-spin" />
+                        <Loader2 size={14} className="absolute right-0 top-3.5 text-amber-300 animate-spin" />
                       )}
                     </div>
-                    {cepError && (
-                      <p className="mt-2 text-[11px] text-red-400">{cepError}</p>
-                    )}
-                    {!cepError && (
-                      <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-foam-50/35">
-                        Preenchemos o resto pra você
-                      </p>
-                    )}
+                    {cepError
+                      ? <p className="mt-1.5 text-[11px] text-red-400">{cepError}</p>
+                      : <p className="mt-1.5 text-[10px] uppercase tracking-[0.16em] text-foam-50/35">Auto-preenche</p>
+                    }
                   </div>
 
-                  <div className="md:col-span-3">
+                  {/* Número — paired with CEP on mobile */}
+                  <div className="col-span-1 md:col-span-1">
+                    <label htmlFor="number" className="field-label">Nº</label>
+                    <input id="number" type="text" required placeholder="123"
+                      value={form.number} onChange={update('number')} className="field-input" />
+                  </div>
+
+                  {/* Rua — full width on mobile */}
+                  <div className="col-span-2 md:col-span-3">
                     <label htmlFor="street" className="field-label">Rua / Logradouro</label>
-                    <input
-                      id="street"
-                      type="text"
-                      placeholder="Será preenchido pelo CEP"
-                      value={form.street}
-                      onChange={update('street')}
-                      className="field-input"
-                    />
+                    <input id="street" type="text" placeholder="Preenchido pelo CEP"
+                      value={form.street} onChange={update('street')} className="field-input" />
                   </div>
 
-                  <div className="md:col-span-1">
-                    <label htmlFor="number" className="field-label">Número</label>
-                    <input
-                      id="number"
-                      type="text"
-                      required
-                      placeholder="123"
-                      value={form.number}
-                      onChange={update('number')}
-                      className="field-input"
-                    />
-                  </div>
-
-                  <div className="md:col-span-3">
+                  {/* Bairro */}
+                  <div className="col-span-2 md:col-span-3">
                     <label htmlFor="neighborhood" className="field-label">Bairro</label>
-                    <input
-                      id="neighborhood"
-                      type="text"
-                      required
-                      placeholder="Será preenchido pelo CEP"
-                      value={form.neighborhood}
-                      onChange={update('neighborhood')}
-                      className="field-input"
-                    />
+                    <input id="neighborhood" type="text" required placeholder="Preenchido pelo CEP"
+                      value={form.neighborhood} onChange={update('neighborhood')} className="field-input" />
                   </div>
 
-                  <div className="md:col-span-2">
+                  {/* Cidade */}
+                  <div className="col-span-1 md:col-span-2">
                     <label htmlFor="city" className="field-label">Cidade</label>
-                    <input
-                      id="city"
-                      type="text"
-                      required
-                      placeholder="Será preenchido"
-                      value={form.city}
-                      onChange={update('city')}
-                      className="field-input"
-                    />
+                    <input id="city" type="text" required placeholder="Preenchida"
+                      value={form.city} onChange={update('city')} className="field-input" />
                   </div>
 
-                  <div className="md:col-span-1">
+                  {/* UF */}
+                  <div className="col-span-1 md:col-span-1">
                     <label htmlFor="state" className="field-label">UF</label>
-                    <input
-                      id="state"
-                      type="text"
-                      required
-                      maxLength={2}
-                      placeholder="SP"
+                    <input id="state" type="text" required maxLength={2} placeholder="SP"
                       value={form.state}
                       onChange={(e) => setForm((f) => ({ ...f, state: e.target.value.toUpperCase() }))}
-                      className="field-input uppercase"
-                    />
+                      className="field-input uppercase" />
                   </div>
 
-                  <div className="md:col-span-6">
-                    <label htmlFor="complement" className="field-label">Complemento <span className="text-foam-50/40 normal-case tracking-normal">(opcional)</span></label>
-                    <input
-                      id="complement"
-                      type="text"
-                      placeholder="Apto, bloco, ponto de referência..."
-                      value={form.complement}
-                      onChange={update('complement')}
-                      className="field-input"
-                    />
+                  {/* Complemento */}
+                  <div className="col-span-2 md:col-span-6">
+                    <label htmlFor="complement" className="field-label">
+                      Complemento <span className="text-foam-50/40 normal-case tracking-normal">(opcional)</span>
+                    </label>
+                    <input id="complement" type="text" placeholder="Apto, bloco, referência..."
+                      value={form.complement} onChange={update('complement')} className="field-input" />
                   </div>
                 </div>
               </div>
 
               {/* When */}
-              <div className="mt-12 pt-8 border-t border-foam-50/10">
+              <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-foam-50/10">
                 <label htmlFor="when" className="field-label">Quando precisa?</label>
-                <input
-                  id="when"
-                  type="text"
-                  required
-                  placeholder="Ex.: 15/05/2026 às 18h"
-                  value={form.when}
-                  onChange={update('when')}
-                  className="field-input"
-                />
+                <input id="when" type="text" required placeholder="Ex.: 15/05/2026 às 18h"
+                  value={form.when} onChange={update('when')} className="field-input" />
               </div>
 
-              <button type="submit" className="btn-primary mt-10 w-full md:w-auto group">
+              <button type="submit" className="btn-primary mt-8 sm:mt-10 w-full sm:w-auto group">
                 Enviar pedido
                 <Send size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
 
-              <p className="mt-5 text-[11px] uppercase tracking-[0.18em] text-foam-50/40">
+              <p className="mt-4 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-foam-50/40">
                 Resposta em até 24h · Suas informações ficam só com a gente
               </p>
             </form>

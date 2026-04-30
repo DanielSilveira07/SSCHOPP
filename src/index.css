@@ -52,6 +52,7 @@
     background-color: #08070a;
     color: #fbf8ee;
     overflow-x: hidden;
+    min-width: 250px;
   }
   ::selection {
     background: #d4881f;
@@ -67,11 +68,11 @@
   }
 
   .container-narrow {
-    @apply mx-auto max-w-6xl px-6 md:px-10;
+    @apply mx-auto max-w-6xl px-3 sm:px-6 md:px-10;
   }
 
   .container-wide {
-    @apply mx-auto max-w-7xl px-6 md:px-10;
+    @apply mx-auto max-w-7xl px-3 sm:px-6 md:px-10;
   }
 
   .label-eyebrow {

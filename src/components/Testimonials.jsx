@@ -56,12 +56,12 @@ const Stars = ({ size = 14 }) => (
 
 export default function Testimonials() {
   return (
-    <section id="depoimentos" className="relative py-28 md:py-36 grain-overlay">
+    <section id="depoimentos" className="relative py-16 sm:py-28 md:py-36 grain-overlay">
       <div className="container-wide">
         <div className="grid lg:grid-cols-12 gap-10 mb-16 items-end">
           <div className="lg:col-span-7">
             <p className="label-eyebrow">Cases · Quem viveu, conta</p>
-            <h2 className="display mt-4 text-5xl md:text-7xl text-foam-50 leading-[0.92]">
+            <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50 leading-[0.92]">
               Festas que viraram
               <br />
               <span className="text-amber-300">memórias inesquecíveis.</span>
@@ -69,7 +69,7 @@ export default function Testimonials() {
           </div>
           <div className="lg:col-span-5 lg:pl-10">
             <div className="flex items-center gap-4">
-              <div className="display text-7xl md:text-8xl text-amber-300">5.0</div>
+              <div className="display text-5xl sm:text-7xl md:text-8xl text-amber-300">5.0</div>
               <div>
                 <Stars size={18} />
                 <p className="mt-1.5 text-xs uppercase tracking-[0.22em] text-foam-50/55">

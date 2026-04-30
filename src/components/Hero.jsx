@@ -9,8 +9,12 @@ export default function Hero() {
       {/* Atmospheric backdrop */}
       <div className="absolute inset-0 -z-10">
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${asset('/photos/photo-2.jpg')})` }}
+          className="absolute inset-0 bg-center"
+          style={{
+            backgroundImage: `url(${asset('/photos/photo-2.jpg')})`,
+            backgroundSize: '120%', // ← altere aqui: 100% = original, 120% = zoom +20%, 150% = zoom +50%
+            backgroundPosition: 'center 30%', // ← posição: "center top/center/bottom" ou "50% 30%"
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/40" />
@@ -35,7 +39,7 @@ export default function Hero() {
               <span className="label-eyebrow">SS Chopp · Eventos & Festas</span>
             </div>
 
-            <h1 className="display text-[clamp(3rem,9vw,7.5rem)] text-foam-50 leading-[0.88]">
+            <h1 className="display text-[clamp(2rem,8vw,7.5rem)] text-foam-50 leading-[0.9]">
               Chopp gelado
               <br />
               <span className="text-amber-300">na sua porta,</span>
@@ -47,7 +51,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-8 max-w-xl text-base md:text-lg text-foam-50/70 leading-relaxed"
+              className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base md:text-lg text-foam-50/70 leading-relaxed"
             >
               Chopeiras de última geração e barris premium entregues no horário
               combinado. Da reunião entre amigos à festa inesquecível —{' '}
@@ -58,7 +62,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
-              className="mt-10 flex flex-col sm:flex-row gap-4"
+              className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4"
             >
               <a href="#contato" className="btn-primary group">
                 Pedir orçamento

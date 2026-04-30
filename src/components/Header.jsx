@@ -29,10 +29,10 @@ export default function Header() {
           : 'bg-transparent'
       }`}
     >
-      <div className="container-wide flex items-center justify-between py-5">
-        <a href="#" className="flex items-center gap-3 group">
-          <img src={asset('/logo.png')} alt="SS Chopp" className="h-10 w-auto" />
-          <span className="hidden sm:block display text-xl tracking-wide text-foam-50 group-hover:text-amber-300 transition-colors">
+      <div className="container-wide flex items-center justify-between py-3 sm:py-5">
+        <a href="#" className="flex items-center gap-1.5 sm:gap-3 group min-w-0">
+          <img src={asset('/logo.png')} alt="SS Chopp" className="h-7 sm:h-9 lg:h-10 w-auto shrink-0" />
+          <span className="display text-[13px] sm:text-base lg:text-xl tracking-wide text-foam-50 group-hover:text-amber-300 transition-colors truncate">
             SS CHOPP
           </span>
         </a>

@@ -25,12 +25,12 @@ const CARDS = [
 
 export default function About() {
   return (
-    <section id="sobre" className="relative py-28 md:py-36 grain-overlay">
+    <section id="sobre" className="relative py-16 sm:py-28 md:py-36 grain-overlay">
       <div className="container-wide">
         <div className="grid lg:grid-cols-12 gap-10 items-end mb-16">
           <div className="lg:col-span-7">
             <p className="label-eyebrow">O que somos</p>
-            <h2 className="display mt-4 text-5xl md:text-7xl text-foam-50 leading-[0.92]">
+            <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50 leading-[0.92]">
               A SS Chopp <span className="text-amber-300">cuida de tudo</span>
               <br />
               para sua festa.

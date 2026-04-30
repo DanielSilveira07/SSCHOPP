@@ -20,7 +20,7 @@ export default function Diagnostic() {
   return (
     <section
       id="diagnostico"
-      className="relative py-28 md:py-36 bg-ink-900 grain-overlay overflow-hidden"
+      className="relative py-16 sm:py-28 md:py-36 bg-ink-900 grain-overlay overflow-hidden"
     >
       {/* Decorative typographic backdrop */}
       <div
@@ -33,7 +33,7 @@ export default function Diagnostic() {
       <div className="container-narrow relative">
         <div className="text-center mb-20">
           <p className="label-eyebrow justify-center">Diagnóstico</p>
-          <h2 className="display mt-4 text-5xl md:text-7xl text-foam-50">
+          <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50">
             O que <span className="text-amber-300">resolvemos</span>
             <br />
             para você.
