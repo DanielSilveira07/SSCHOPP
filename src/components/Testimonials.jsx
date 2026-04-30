@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
-import { asset } from '../lib/assets.js'
 
 const REVIEWS = [
   {
@@ -8,42 +7,42 @@ const REVIEWS = [
       'Meus amigos pediram o contato de vocês. Recomendo demais! O chopp estava sempre gelado, perfeito do começo ao fim da festa.',
     name: 'Paulo Henrique',
     role: 'Aniversário 30 anos',
-    photo: asset('/photos/photo-1.jpg'),
+    photo: 'https://randomuser.me/api/portraits/men/32.jpg',
   },
   {
     quote:
       'Simples, confiável e delicioso. Voltaria a contratar mil vezes! A equipe chegou no horário e montou tudo num piscar de olhos.',
     name: 'Mariana Costa',
     role: 'Confraternização da empresa',
-    photo: asset('/photos/photo-4.jpg'),
+    photo: 'https://randomuser.me/api/portraits/women/44.jpg',
   },
   {
     quote:
       'Vocês transformaram nossa formatura em algo inesquecível! Chopeira moderna, barris caprichados, atendimento de outro nível.',
     name: 'Lucas Almeida',
     role: 'Formatura · 22 anos',
-    photo: asset('/photos/photo-8.jpg'),
+    photo: 'https://randomuser.me/api/portraits/men/78.jpg',
   },
   {
     quote:
       'Atendimento impecável e qualidade incrível. Foi a primeira vez que eu não me preocupei com nada na minha festa.',
     name: 'Rafaela Souza',
     role: 'Casamento ao ar livre',
-    photo: asset('/photos/photo-3.jpg'),
+    photo: 'https://randomuser.me/api/portraits/women/65.jpg',
   },
   {
     quote:
       'O chopp ficou na temperatura perfeita o evento todo. Já marcamos o próximo. Indispensável.',
     name: 'Bruno Tavares',
     role: 'Churrasco corporativo',
-    photo: asset('/photos/photo-6.jpg'),
+    photo: 'https://randomuser.me/api/portraits/men/15.jpg',
   },
   {
     quote:
       'Profissionalismo do início ao fim. A chopeira fez sucesso e os convidados não pararam de elogiar a qualidade.',
     name: 'Juliana Mendes',
     role: 'Reunião de família',
-    photo: asset('/photos/photo-9.jpg'),
+    photo: 'https://randomuser.me/api/portraits/women/22.jpg',
   },
 ]
 
@@ -74,7 +73,7 @@ export default function Testimonials() {
               <div>
                 <Stars size={18} />
                 <p className="mt-1.5 text-xs uppercase tracking-[0.22em] text-foam-50/55">
-                  Média baseada em<br />+500 eventos atendidos
+                  +5000 eventos<br />atendidos
                 </p>
               </div>
             </div>

@@ -1,20 +1,69 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Check, Send } from 'lucide-react'
+import { Check, Send, Loader2, MapPin } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
 import { asset } from '../lib/assets.js'
 
+const initialForm = {
+  name: '',
+  email: '',
+  phone: '',
+  cep: '',
+  street: '',
+  number: '',
+  complement: '',
+  neighborhood: '',
+  city: '',
+  state: '',
+  when: '',
+}
+
+const onlyDigits = (s) => s.replace(/\D/g, '')
+
+const formatCep = (raw) => {
+  const d = onlyDigits(raw).slice(0, 8)
+  return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d
+}
+
 export default function ContactForm() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    neighborhood: '',
-    when: '',
-  })
+  const [form, setForm] = useState(initialForm)
   const [done, setDone] = useState(false)
+  const [cepLoading, setCepLoading] = useState(false)
+  const [cepError, setCepError] = useState('')
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
+
+  const handleCepChange = (e) => {
+    const masked = formatCep(e.target.value)
+    setForm((f) => ({ ...f, cep: masked }))
+    setCepError('')
+  }
+
+  const lookupCep = async () => {
+    const digits = onlyDigits(form.cep)
+    if (digits.length !== 8) return
+    setCepLoading(true)
+    setCepError('')
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`)
+      const data = await res.json()
+      if (data.erro) {
+        setCepError('CEP não encontrado.')
+        return
+      }
+      setForm((f) => ({
+        ...f,
+        street: data.logradouro || '',
+        neighborhood: data.bairro || '',
+        city: data.localidade || '',
+        state: data.uf || '',
+      }))
+    } catch (err) {
+      setCepError('Erro ao buscar CEP. Preencha manualmente.')
+    } finally {
+      setCepLoading(false)
+    }
+  }
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -110,6 +159,7 @@ export default function ContactForm() {
                 Conte sobre sua festa
               </h3>
 
+              {/* Personal */}
               <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="md:col-span-2">
                   <label htmlFor="name" className="field-label">Seu Nome</label>
@@ -149,32 +199,139 @@ export default function ContactForm() {
                     className="field-input"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label htmlFor="neighborhood" className="field-label">Bairro</label>
-                  <input
-                    id="neighborhood"
-                    type="text"
-                    required
-                    placeholder="Onde será a festa?"
-                    value={form.neighborhood}
-                    onChange={update('neighborhood')}
-                    className="field-input"
-                  />
+              {/* Address block */}
+              <div className="mt-12 pt-8 border-t border-foam-50/10">
+                <div className="flex items-center gap-2 mb-6">
+                  <MapPin size={16} className="text-amber-300" />
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300 font-bold">
+                    Endereço da festa
+                  </p>
                 </div>
 
-                <div>
-                  <label htmlFor="when" className="field-label">Quando precisa?</label>
-                  <input
-                    id="when"
-                    type="text"
-                    required
-                    placeholder="Ex.: 15/05/2026 às 18h"
-                    value={form.when}
-                    onChange={update('when')}
-                    className="field-input"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-x-8 gap-y-8">
+                  {/* CEP with autofill */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="cep" className="field-label">CEP</label>
+                    <div className="relative">
+                      <input
+                        id="cep"
+                        type="text"
+                        inputMode="numeric"
+                        required
+                        placeholder="00000-000"
+                        value={form.cep}
+                        onChange={handleCepChange}
+                        onBlur={lookupCep}
+                        maxLength={9}
+                        className="field-input pr-9"
+                      />
+                      {cepLoading && (
+                        <Loader2 size={16} className="absolute right-0 top-3 text-amber-300 animate-spin" />
+                      )}
+                    </div>
+                    {cepError && (
+                      <p className="mt-2 text-[11px] text-red-400">{cepError}</p>
+                    )}
+                    {!cepError && (
+                      <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-foam-50/35">
+                        Preenchemos o resto pra você
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="md:col-span-3">
+                    <label htmlFor="street" className="field-label">Rua / Logradouro</label>
+                    <input
+                      id="street"
+                      type="text"
+                      placeholder="Será preenchido pelo CEP"
+                      value={form.street}
+                      onChange={update('street')}
+                      className="field-input"
+                    />
+                  </div>
+
+                  <div className="md:col-span-1">
+                    <label htmlFor="number" className="field-label">Número</label>
+                    <input
+                      id="number"
+                      type="text"
+                      required
+                      placeholder="123"
+                      value={form.number}
+                      onChange={update('number')}
+                      className="field-input"
+                    />
+                  </div>
+
+                  <div className="md:col-span-3">
+                    <label htmlFor="neighborhood" className="field-label">Bairro</label>
+                    <input
+                      id="neighborhood"
+                      type="text"
+                      required
+                      placeholder="Será preenchido pelo CEP"
+                      value={form.neighborhood}
+                      onChange={update('neighborhood')}
+                      className="field-input"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label htmlFor="city" className="field-label">Cidade</label>
+                    <input
+                      id="city"
+                      type="text"
+                      required
+                      placeholder="Será preenchido"
+                      value={form.city}
+                      onChange={update('city')}
+                      className="field-input"
+                    />
+                  </div>
+
+                  <div className="md:col-span-1">
+                    <label htmlFor="state" className="field-label">UF</label>
+                    <input
+                      id="state"
+                      type="text"
+                      required
+                      maxLength={2}
+                      placeholder="SP"
+                      value={form.state}
+                      onChange={(e) => setForm((f) => ({ ...f, state: e.target.value.toUpperCase() }))}
+                      className="field-input uppercase"
+                    />
+                  </div>
+
+                  <div className="md:col-span-6">
+                    <label htmlFor="complement" className="field-label">Complemento <span className="text-foam-50/40 normal-case tracking-normal">(opcional)</span></label>
+                    <input
+                      id="complement"
+                      type="text"
+                      placeholder="Apto, bloco, ponto de referência..."
+                      value={form.complement}
+                      onChange={update('complement')}
+                      className="field-input"
+                    />
+                  </div>
                 </div>
+              </div>
+
+              {/* When */}
+              <div className="mt-12 pt-8 border-t border-foam-50/10">
+                <label htmlFor="when" className="field-label">Quando precisa?</label>
+                <input
+                  id="when"
+                  type="text"
+                  required
+                  placeholder="Ex.: 15/05/2026 às 18h"
+                  value={form.when}
+                  onChange={update('when')}
+                  className="field-input"
+                />
               </div>
 
               <button type="submit" className="btn-primary mt-10 w-full md:w-auto group">

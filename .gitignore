@@ -11,3 +11,8 @@ Thumbs.db
 !.vscode/extensions.json
 .idea
 *.log
+
+# Claude Code internals
+.agents/
+skills-lock.json
+.claude/

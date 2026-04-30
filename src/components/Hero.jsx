@@ -103,7 +103,7 @@ export default function Hero() {
                   <span className="ml-1.5 text-xs font-bold text-foam-50">5.0</span>
                 </div>
                 <span className="text-[11px] uppercase tracking-[0.18em] text-foam-50/55 mt-0.5">
-                  +500 festas atendidas
+                  +5000 eventos atendidos
                 </span>
               </div>
             </motion.div>
@@ -137,34 +137,6 @@ export default function Hero() {
               </div>
             </div>
           </motion.div>
-
-          {/* Floating mini-card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1 }}
-            className="absolute -bottom-6 -left-6 bg-ink-900 border border-amber-400/20 px-5 py-4 max-w-[220px] grain-overlay"
-          >
-            <p className="text-[10px] uppercase tracking-[0.22em] text-amber-300 font-bold">
-              Entrega no mesmo dia
-            </p>
-            <p className="mt-1 text-sm text-foam-50/80 leading-snug">
-              Pedidos confirmados até 14h chegam ainda hoje.
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Bottom marquee strip */}
-      <div className="absolute bottom-0 left-0 right-0 border-t border-amber-400/10 bg-ink-950/60 backdrop-blur-sm z-10">
-        <div className="container-wide flex items-center justify-between py-4 text-[11px] uppercase tracking-[0.22em] text-foam-50/50 overflow-x-auto whitespace-nowrap">
-          <span>Beba com moderação</span>
-          <span className="hidden md:inline">·</span>
-          <span className="hidden md:inline">Chopeiras de última geração</span>
-          <span className="hidden md:inline">·</span>
-          <span className="hidden md:inline">Barris premium</span>
-          <span className="hidden md:inline">·</span>
-          <span>Entrega gratuita</span>
         </div>
       </div>
     </section>

@@ -86,22 +86,6 @@ export default function About() {
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 max-w-3xl mx-auto text-center"
-        >
-          <p className="display text-2xl md:text-3xl text-foam-50/85 leading-snug">
-            Na <span className="text-amber-300">SS Chopp</span>, queremos que
-            você tenha o chopp perfeito,{' '}
-            <span className="text-amber-300">sem stress</span>.
-          </p>
-          <p className="mt-3 text-sm uppercase tracking-[0.22em] text-foam-50/40">
-            Equipamentos modernos · Barris premium · Entrega que você pode contar
-          </p>
-        </motion.div>
       </div>
     </section>
   )

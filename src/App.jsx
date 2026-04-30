@@ -6,7 +6,6 @@ import About from './components/About.jsx'
 import Diagnostic from './components/Diagnostic.jsx'
 import Testimonials from './components/Testimonials.jsx'
 import Method from './components/Method.jsx'
-import LeadMagnet from './components/LeadMagnet.jsx'
 import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import WhatsAppFloat from './components/WhatsAppFloat.jsx'
@@ -56,7 +55,6 @@ export default function App() {
           <Diagnostic />
           <Testimonials />
           <Method />
-          <LeadMagnet />
           <ContactForm />
         </main>
         <Footer />

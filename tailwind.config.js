@@ -12,14 +12,14 @@ export default {
           600: '#332821',
         },
         amber: {
-          50:  '#fbf3df',
-          100: '#f6e2b3',
-          200: '#eecb7c',
-          300: '#e6b04a',
-          400: '#d4881f',
-          500: '#b56d10',
-          600: '#8c520a',
-          700: '#5e3706',
+          50:  '#fffbe6',
+          100: '#fef3b3',
+          200: '#fde879',
+          300: '#fbdb3d',
+          400: '#f5cb19',
+          500: '#d4a912',
+          600: '#a8830d',
+          700: '#705608',
         },
         foam: {
           50:  '#fbf8ee',
@@ -56,8 +56,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'pulse-amber': {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(212, 136, 31, 0.6)' },
-          '50%':      { boxShadow: '0 0 0 14px rgba(212, 136, 31, 0)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(245, 203, 25, 0.6)' },
+          '50%':      { boxShadow: '0 0 0 14px rgba(245, 203, 25, 0)' },
         },
       },
       animation: {
