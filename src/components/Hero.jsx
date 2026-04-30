@@ -97,10 +97,19 @@ export default function Hero() {
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={13} className="fill-amber-300 text-amber-300" />
-                  ))}
-                  <span className="ml-1.5 text-xs font-bold text-foam-50">5.0</span>
+                  {[...Array(5)].map((_, i) => {
+                    if (i < 4)
+                      return <Star key={i} size={13} className="fill-amber-300 text-amber-300" />
+                    return (
+                      <div key={i} className="relative inline-block" style={{ width: 13, height: 13 }}>
+                        <Star size={13} className="text-amber-300/25 absolute inset-0" />
+                        <div className="absolute inset-0 overflow-hidden" style={{ width: '80%' }}>
+                          <Star size={13} className="fill-amber-300 text-amber-300 block" />
+                        </div>
+                      </div>
+                    )
+                  })}
+                  <span className="ml-1.5 text-xs font-bold text-foam-50">4.8</span>
                 </div>
                 <span className="text-[11px] uppercase tracking-[0.18em] text-foam-50/55 mt-0.5">
                   +5000 eventos atendidos

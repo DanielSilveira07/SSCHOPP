@@ -46,13 +46,28 @@ const REVIEWS = [
   },
 ]
 
-const Stars = ({ size = 14 }) => (
-  <div className="flex items-center gap-0.5">
-    {[...Array(5)].map((_, i) => (
-      <Star key={i} size={size} className="fill-amber-300 text-amber-300" />
-    ))}
-  </div>
-)
+const Stars = ({ size = 14, rating = 5 }) => {
+  const full = Math.floor(rating)
+  const fraction = rating - full
+  return (
+    <div className="flex items-center gap-0.5">
+      {[...Array(5)].map((_, i) => {
+        if (i < full)
+          return <Star key={i} size={size} className="fill-amber-300 text-amber-300" />
+        if (i === full && fraction > 0)
+          return (
+            <div key={i} className="relative inline-block" style={{ width: size, height: size }}>
+              <Star size={size} className="text-amber-300/25 absolute inset-0" />
+              <div className="absolute inset-0 overflow-hidden" style={{ width: `${fraction * 100}%` }}>
+                <Star size={size} className="fill-amber-300 text-amber-300 block" />
+              </div>
+            </div>
+          )
+        return <Star key={i} size={size} className="text-amber-300/25" />
+      })}
+    </div>
+  )
+}
 
 export default function Testimonials() {
   return (
@@ -69,9 +84,9 @@ export default function Testimonials() {
           </div>
           <div className="lg:col-span-5 lg:pl-10">
             <div className="flex items-center gap-4">
-              <div className="display text-5xl sm:text-7xl md:text-8xl text-amber-300">5.0</div>
+              <div className="display text-5xl sm:text-7xl md:text-8xl text-amber-300">4.8</div>
               <div>
-                <Stars size={18} />
+                <Stars size={18} rating={4.8} />
                 <p className="mt-1.5 text-xs uppercase tracking-[0.22em] text-foam-50/55">
                   +5000 eventos<br />atendidos
                 </p>
