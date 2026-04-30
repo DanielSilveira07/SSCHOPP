@@ -17,11 +17,11 @@ export default function App() {
   const [denied, setDenied] = useState(false)
 
   useEffect(() => {
-    if (sessionStorage.getItem(AGE_KEY) === '1') setVerified(true)
+    if (localStorage.getItem(AGE_KEY) === '1') setVerified(true)
   }, [])
 
   const handleConfirm = () => {
-    sessionStorage.setItem(AGE_KEY, '1')
+    localStorage.setItem(AGE_KEY, '1')
     setVerified(true)
   }
 
