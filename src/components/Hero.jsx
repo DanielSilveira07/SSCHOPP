@@ -3,16 +3,38 @@ import { ArrowRight, Star } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
 import { asset } from '../lib/assets.js'
 
+// ── Controles da imagem de fundo ─────────────────────────────────────────
+const BG_POSITION = 'right center'  // 'center' | '50% 30%' | 'right center' | '70% top'
+// ─────────────────────────────────────────────────────────────────────────
+
 export default function Hero() {
   return (
     <section className="relative min-h-screen pt-28 pb-16 overflow-hidden grain-overlay">
       {/* Atmospheric backdrop */}
       <div className="absolute inset-0 -z-10">
+        {/* Camada borrada para preencher as bordas */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${asset('/photos/photo-2.jpg')})` }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${asset('/photos/photo-hero.jpg')})`,
+            backgroundSize: 'cover',
+            backgroundPosition: BG_POSITION,
+            filter: 'blur(60px)',
+            transform: 'scale(1.2)',
+          }}
+        />
+        {/* Imagem principal contida com bordas dissolvidas */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${asset('/photos/photo-hero-2.jpg')})`,
+            backgroundSize: 'contain',
+            backgroundPosition: BG_POSITION,
+            backgroundRepeat: 'no-repeat',
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/40" />
+        <div className="absolute inset-y-0 left-0 w-[100%]" style={{ background: 'linear-gradient(to right, #000000 40%, transparent 100%)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/40" />
         <div
           className="absolute inset-0 opacity-70"
@@ -25,7 +47,7 @@ export default function Hero() {
 
       <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center min-h-[calc(100vh-7rem)]">
         {/* LEFT: copy */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,38 +141,6 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* RIGHT: floating product card */}
-        <div className="lg:col-span-5 relative hidden lg:block">
-          <motion.div
-            initial={{ opacity: 0, x: 40, rotate: 2 }}
-            animate={{ opacity: 1, x: 0, rotate: -2 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
-            className="relative"
-          >
-            <div className="absolute -inset-6 bg-gradient-to-tr from-amber-400/30 to-transparent blur-2xl" />
-            <div className="relative aspect-[4/5] overflow-hidden border border-amber-300/20">
-              <div
-                className="absolute inset-0 bg-center"
-                style={{
-                  backgroundImage: `url(${asset('/photos/photo-1.jpg')})`,
-                  backgroundSize: '200%', // ← altere: 100% normal, 120% zoom +20%, 150% zoom +50%
-                  backgroundPosition: '55% bottom', // ← posição: 'center top', 'center 50%', '50% 30%'
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-transparent" />
-              {/* Sticker */}
-              <div className="absolute top-5 left-5 bg-amber-400 text-ink-950 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.22em]">
-                Premium
-              </div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <p className="display text-3xl text-foam-50">Chopeiras &<br />Barris Premium</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.22em] text-foam-50/60">
-                  10L · 20L · 30L · 50L
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
       </div>
     </section>
   )
