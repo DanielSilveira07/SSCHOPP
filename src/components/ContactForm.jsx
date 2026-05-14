@@ -1,22 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check, Send, Loader2, MapPin } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
 import { asset } from '../lib/assets.js'
 
-const initialForm = {
-  name: '',
-  email: '',
-  phone: '',
-  cep: '',
-  street: '',
-  number: '',
-  complement: '',
-  neighborhood: '',
-  city: '',
-  state: '',
-  when: '',
-}
+const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbr41nBVRdJpkXLlggldr24PAqM3OYQndhJjOAJghjZPXDK3eSRMAk2yGUaxH3cj8E/exec'
 
 const onlyDigits = (s) => s.replace(/\D/g, '')
 
@@ -25,22 +13,48 @@ const formatCep = (raw) => {
   return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d
 }
 
+const formatPhone = (raw) => {
+  const d = onlyDigits(raw).slice(0, 11)
+  if (d.length <= 2) return d
+  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+}
+
+// Converte "2026-05-15" -> "15/05/2026"
+const formatDateBR = (iso) => {
+  if (!iso) return ''
+  const [y, m, d] = iso.split('-')
+  return y && m && d ? `${d}/${m}/${y}` : ''
+}
+
+// Converte "18:00" -> "18h"  |  "18:30" -> "18h30"
+const formatTimeBR = (t) => {
+  if (!t) return ''
+  const [h, m] = t.split(':')
+  if (!h) return ''
+  return m === '00' || !m ? `${h}h` : `${h}h${m}`
+}
+
 export default function ContactForm() {
-  const [form, setForm] = useState(initialForm)
+  const formRef = useRef(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
   const [done, setDone] = useState(false)
+  const [doneEmail, setDoneEmail] = useState('')
+
+  const [cep, setCep] = useState('')
+  const [phone, setPhone] = useState('')
+  const [street, setStreet] = useState('')
+  const [neighborhood, setNeighborhood] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
   const [cepLoading, setCepLoading] = useState(false)
   const [cepError, setCepError] = useState('')
 
-  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
-
-  const handleCepChange = (e) => {
-    const masked = formatCep(e.target.value)
-    setForm((f) => ({ ...f, cep: masked }))
-    setCepError('')
-  }
-
   const lookupCep = async () => {
-    const digits = onlyDigits(form.cep)
+    const digits = onlyDigits(cep)
     if (digits.length !== 8) return
     setCepLoading(true)
     setCepError('')
@@ -51,25 +65,91 @@ export default function ContactForm() {
         setCepError('CEP não encontrado.')
         return
       }
-      setForm((f) => ({
-        ...f,
-        street: data.logradouro || '',
-        neighborhood: data.bairro || '',
-        city: data.localidade || '',
-        state: data.uf || '',
-      }))
-    } catch (err) {
+      setStreet(data.logradouro || '')
+      setNeighborhood(data.bairro || '')
+      setCity(data.localidade || '')
+      setState(data.uf || '')
+    } catch {
       setCepError('Erro ao buscar CEP. Preencha manualmente.')
     } finally {
       setCepLoading(false)
     }
   }
 
-  const onSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: integrar com backend / serviço de email
-    console.log('Lead orçamento:', form)
-    setDone(true)
+    setIsLoading(true)
+    setMessage(null)
+    setMessageType(null)
+
+    try {
+      const formData = new FormData(e.target)
+
+      const urlParams = new URLSearchParams(window.location.search)
+      const utms = {
+        utm_source:   urlParams.get('utm_source')   || '',
+        utm_medium:   urlParams.get('utm_medium')   || '',
+        utm_campaign: urlParams.get('utm_campaign') || '',
+        utm_term:     urlParams.get('utm_term')     || '',
+        utm_content:  urlParams.get('utm_content')  || '',
+      }
+
+      const telefone = String(formData.get('telefone') || '')
+      const whenDate = String(formData.get('when_date') || '')
+      const whenTime = String(formData.get('when_time') || '')
+      const dateBR = formatDateBR(whenDate)
+      const timeBR = formatTimeBR(whenTime)
+      const quando_precisa = [dateBR, timeBR && `às ${timeBR}`].filter(Boolean).join(' ')
+
+      const data = {
+        nome:           formData.get('nome'),
+        email:          formData.get('email'),
+        telefone,
+        telefone_digits: onlyDigits(telefone),
+        cep:            formData.get('cep'),
+        rua:            formData.get('rua'),
+        numero:         formData.get('numero'),
+        complemento:    formData.get('complemento') || '—',
+        bairro:         formData.get('bairro'),
+        cidade:         formData.get('cidade'),
+        uf:             String(formData.get('uf') || '').toUpperCase(),
+        quando_precisa,
+        data_envio:     new Date().toLocaleString('pt-BR'),
+        origem:         'Site SS Chopp',
+        pagina:         window.location.href,
+        ...utms,
+      }
+
+      // Salva o lead na planilha via Apps Script.
+      // Usamos fetch (não sendBeacon) pra conseguir detectar bloqueio do adblock.
+      const beaconData = new FormData()
+      Object.entries(data).forEach(([k, v]) => {
+        beaconData.append(k, String(v ?? ''))
+      })
+      await fetch(SHEETS_WEB_APP_URL, {
+        method: 'POST',
+        body: beaconData,
+        mode: 'no-cors',
+      })
+
+      setDoneEmail(String(data.email || ''))
+      setDone(true)
+      formRef.current?.reset()
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error)
+      // ERR_BLOCKED_BY_CLIENT / Failed to fetch → quase sempre é adblock
+      const isBlocked = /failed to fetch|blocked|networkerror/i.test(
+        String(error?.message || error)
+      )
+      setMessage(
+        isBlocked
+          ? 'O envio foi bloqueado pelo seu bloqueador de anúncios (AdBlock, uBlock ou similar). Desative-o neste site OU fale com a gente pelo WhatsApp logo abaixo.'
+          : 'Erro ao enviar. Tente novamente ou fale no WhatsApp.'
+      )
+      setMessageType('error')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -83,7 +163,6 @@ export default function ContactForm() {
       </div>
 
       <div className="container-wide relative grid lg:grid-cols-12 gap-12 items-start">
-        {/* LEFT: copy */}
         <div className="lg:col-span-5 lg:sticky lg:top-32">
           <p className="label-eyebrow">Vamos juntos</p>
           <h2 className="display mt-4 text-3xl sm:text-5xl md:text-7xl text-foam-50 leading-[0.92]">
@@ -117,7 +196,6 @@ export default function ContactForm() {
           </div>
         </div>
 
-        {/* RIGHT: form */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -135,7 +213,7 @@ export default function ContactForm() {
               </h3>
               <p className="mt-4 text-foam-50/70 leading-relaxed max-w-md mx-auto">
                 Em até 24 horas você receberá nossa proposta personalizada em{' '}
-                <span className="text-amber-300">{form.email}</span>. Enquanto
+                <span className="text-amber-300">{doneEmail}</span>. Enquanto
                 isso, que tal já entrar no nosso WhatsApp?
               </p>
               <a
@@ -149,7 +227,8 @@ export default function ContactForm() {
             </div>
           ) : (
             <form
-              onSubmit={onSubmit}
+              ref={formRef}
+              onSubmit={handleSubmit}
               className="bg-ink-900/80 backdrop-blur-md border border-foam-50/10 grain-overlay p-4 sm:p-8 md:p-12"
             >
               <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300 font-bold mb-2">
@@ -159,26 +238,25 @@ export default function ContactForm() {
                 Conte sobre sua festa
               </h3>
 
-              {/* Personal */}
               <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div className="sm:col-span-2">
-                  <label htmlFor="name" className="field-label">Seu Nome</label>
-                  <input id="name" type="text" required placeholder="Como podemos te chamar?"
-                    value={form.name} onChange={update('name')} className="field-input" />
+                  <label htmlFor="nome" className="field-label">Seu Nome</label>
+                  <input id="nome" name="nome" type="text" required placeholder="Como podemos te chamar?"
+                    className="field-input" autoComplete="name" maxLength={100} disabled={isLoading} />
                 </div>
                 <div>
                   <label htmlFor="email" className="field-label">E-mail</label>
-                  <input id="email" type="email" required placeholder="seu@email.com"
-                    value={form.email} onChange={update('email')} className="field-input" />
+                  <input id="email" name="email" type="email" required placeholder="seu@email.com"
+                    className="field-input" autoComplete="email" maxLength={120} disabled={isLoading} />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="field-label">Telefone / WhatsApp</label>
-                  <input id="phone" type="tel" required placeholder="(11) 99999-9999"
-                    value={form.phone} onChange={update('phone')} className="field-input" />
+                  <label htmlFor="telefone" className="field-label">Telefone / WhatsApp</label>
+                  <input id="telefone" name="telefone" type="tel" required placeholder="(11) 99999-9999"
+                    value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))}
+                    className="field-input" autoComplete="tel" maxLength={16} disabled={isLoading} />
                 </div>
               </div>
 
-              {/* Address block */}
               <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-foam-50/10">
                 <div className="flex items-center gap-2 mb-5 sm:mb-6">
                   <MapPin size={15} className="text-amber-300 shrink-0" />
@@ -187,16 +265,15 @@ export default function ContactForm() {
                   </p>
                 </div>
 
-                {/* 2-col mobile, 6-col md+ */}
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-6 sm:gap-y-8">
-                  {/* CEP */}
                   <div className="col-span-1 md:col-span-2">
                     <label htmlFor="cep" className="field-label">CEP</label>
                     <div className="relative">
-                      <input id="cep" type="text" inputMode="numeric" required
-                        placeholder="00000-000" value={form.cep}
-                        onChange={handleCepChange} onBlur={lookupCep} maxLength={9}
-                        className="field-input pr-7" />
+                      <input id="cep" name="cep" type="text" inputMode="numeric" required
+                        placeholder="00000-000" value={cep}
+                        onChange={(e) => { setCep(formatCep(e.target.value)); setCepError('') }}
+                        onBlur={lookupCep} maxLength={9}
+                        className="field-input pr-7" autoComplete="postal-code" disabled={isLoading} />
                       {cepLoading && (
                         <Loader2 size={14} className="absolute right-0 top-3.5 text-amber-300 animate-spin" />
                       )}
@@ -207,64 +284,106 @@ export default function ContactForm() {
                     }
                   </div>
 
-                  {/* Número — paired with CEP on mobile */}
                   <div className="col-span-1 md:col-span-1">
-                    <label htmlFor="number" className="field-label">Nº</label>
-                    <input id="number" type="text" required placeholder="123"
-                      value={form.number} onChange={update('number')} className="field-input" />
+                    <label htmlFor="numero" className="field-label">Nº</label>
+                    <input id="numero" name="numero" type="text" required placeholder="123"
+                      className="field-input" maxLength={10} disabled={isLoading} />
                   </div>
 
-                  {/* Rua — full width on mobile */}
                   <div className="col-span-2 md:col-span-3">
-                    <label htmlFor="street" className="field-label">Rua / Logradouro</label>
-                    <input id="street" type="text" placeholder="Preenchido pelo CEP"
-                      value={form.street} onChange={update('street')} className="field-input" />
+                    <label htmlFor="rua" className="field-label">Rua / Logradouro</label>
+                    <input id="rua" name="rua" type="text" placeholder="Preenchido pelo CEP"
+                      value={street} onChange={(e) => setStreet(e.target.value)}
+                      className="field-input" autoComplete="address-line1" maxLength={150} disabled={isLoading} />
                   </div>
 
-                  {/* Bairro */}
                   <div className="col-span-2 md:col-span-3">
-                    <label htmlFor="neighborhood" className="field-label">Bairro</label>
-                    <input id="neighborhood" type="text" required placeholder="Preenchido pelo CEP"
-                      value={form.neighborhood} onChange={update('neighborhood')} className="field-input" />
+                    <label htmlFor="bairro" className="field-label">Bairro</label>
+                    <input id="bairro" name="bairro" type="text" required placeholder="Preenchido pelo CEP"
+                      value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)}
+                      className="field-input" maxLength={100} disabled={isLoading} />
                   </div>
 
-                  {/* Cidade */}
                   <div className="col-span-1 md:col-span-2">
-                    <label htmlFor="city" className="field-label">Cidade</label>
-                    <input id="city" type="text" required placeholder="Preenchida"
-                      value={form.city} onChange={update('city')} className="field-input" />
+                    <label htmlFor="cidade" className="field-label">Cidade</label>
+                    <input id="cidade" name="cidade" type="text" required placeholder="Preenchida"
+                      value={city} onChange={(e) => setCity(e.target.value)}
+                      className="field-input" autoComplete="address-level2" maxLength={80} disabled={isLoading} />
                   </div>
 
-                  {/* UF */}
                   <div className="col-span-1 md:col-span-1">
-                    <label htmlFor="state" className="field-label">UF</label>
-                    <input id="state" type="text" required maxLength={2} placeholder="SP"
-                      value={form.state}
-                      onChange={(e) => setForm((f) => ({ ...f, state: e.target.value.toUpperCase() }))}
-                      className="field-input uppercase" />
+                    <label htmlFor="uf" className="field-label">UF</label>
+                    <input id="uf" name="uf" type="text" required maxLength={2} placeholder="SP"
+                      value={state} onChange={(e) => setState(e.target.value.toUpperCase())}
+                      className="field-input uppercase" autoComplete="address-level1" disabled={isLoading} />
                   </div>
 
-                  {/* Complemento */}
                   <div className="col-span-2 md:col-span-6">
-                    <label htmlFor="complement" className="field-label">
+                    <label htmlFor="complemento" className="field-label">
                       Complemento <span className="text-foam-50/40 normal-case tracking-normal">(opcional)</span>
                     </label>
-                    <input id="complement" type="text" placeholder="Apto, bloco, referência..."
-                      value={form.complement} onChange={update('complement')} className="field-input" />
+                    <input id="complemento" name="complemento" type="text" placeholder="Apto, bloco, referência..."
+                      className="field-input" maxLength={150} disabled={isLoading} />
                   </div>
                 </div>
               </div>
 
-              {/* When */}
               <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-foam-50/10">
-                <label htmlFor="when" className="field-label">Quando precisa?</label>
-                <input id="when" type="text" required placeholder="Ex.: 15/05/2026 às 18h"
-                  value={form.when} onChange={update('when')} className="field-input" />
+                <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300 font-bold mb-5">
+                  Quando precisa?
+                </p>
+                <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                  <div>
+                    <label htmlFor="when_date" className="field-label">Data</label>
+                    <input
+                      id="when_date"
+                      name="when_date"
+                      type="date"
+                      required
+                      disabled={isLoading}
+                      className="field-input"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="when_time" className="field-label">Horário</label>
+                    <input
+                      id="when_time"
+                      name="when_time"
+                      type="time"
+                      required
+                      disabled={isLoading}
+                      className="field-input"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                  </div>
+                </div>
               </div>
 
-              <button type="submit" className="btn-primary mt-8 sm:mt-10 w-full sm:w-auto group">
-                Enviar pedido
-                <Send size={15} className="transition-transform group-hover:translate-x-1" />
+              {message && messageType === 'error' && (
+                <div className="mt-6 bg-red-500/10 border border-red-500/30 px-4 py-3">
+                  <p className="text-sm text-red-300 leading-relaxed">{message}</p>
+                  <a
+                    href={buildWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-3 text-xs font-bold uppercase tracking-[0.16em] text-[#25D366] hover:text-[#1ebe57] transition-colors"
+                  >
+                    Falar pelo WhatsApp →
+                  </a>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="btn-primary mt-8 sm:mt-10 w-full sm:w-auto group disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <>Enviando... <Loader2 size={15} className="animate-spin" /></>
+                ) : (
+                  <>Enviar pedido <Send size={15} className="transition-transform group-hover:translate-x-1" /></>
+                )}
               </button>
 
               <p className="mt-4 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-foam-50/40">
