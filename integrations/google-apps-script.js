@@ -17,7 +17,7 @@ const SHEET_NAME = 'Leads'
 const NOTIFY_EMAIL = 'danielssilveira2002@gmail.com'
 
 const HEADERS = [
-  'Data', 'Nome', 'Email', 'Telefone',
+  'Data', 'Nome', 'Telefone',
   'Endereço', 'Quando precisa', 'Origem', 'Página', 'UTM',
 ]
 
@@ -33,15 +33,14 @@ function setup() {
       .setBackground('#08070a')
       .setFontColor('#f5cb19')
     sheet.setFrozenRows(1)
-    sheet.setColumnWidth(1, 140)
-    sheet.setColumnWidth(2, 180)
-    sheet.setColumnWidth(3, 220)
-    sheet.setColumnWidth(4, 140)
-    sheet.setColumnWidth(5, 320)
-    sheet.setColumnWidth(6, 160)
-    sheet.setColumnWidth(7, 130)
-    sheet.setColumnWidth(8, 220)
-    sheet.setColumnWidth(9, 260)
+    sheet.setColumnWidth(1, 140)  // Data
+    sheet.setColumnWidth(2, 180)  // Nome
+    sheet.setColumnWidth(3, 140)  // Telefone
+    sheet.setColumnWidth(4, 320)  // Endereço
+    sheet.setColumnWidth(5, 160)  // Quando precisa
+    sheet.setColumnWidth(6, 130)  // Origem
+    sheet.setColumnWidth(7, 220)  // Página
+    sheet.setColumnWidth(8, 260)  // UTM
   }
 }
 
@@ -116,8 +115,7 @@ const S = {
   divider:    'padding:14px 0;border-bottom:1px solid rgba(251,248,238,0.06)',
   addrBox:    'background:rgba(245,203,25,0.04);border-left:2px solid ' + COLORS.accent,
   highlight:  'margin:0;font-size:18px;font-weight:700;color:' + COLORS.text + ';background:rgba(245,203,25,0.08);padding:14px 18px;border:1px solid rgba(245,203,25,0.2)',
-  btnWpp:     'display:inline-block;background:' + COLORS.whatsapp + ';color:' + COLORS.bg + ';padding:14px 28px;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;margin:0 4px 8px',
-  btnMail:    'display:inline-block;background:' + COLORS.accent + ';color:' + COLORS.bg + ';padding:14px 28px;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;margin:0 4px 8px',
+  btnWpp:     'display:inline-block;background:' + COLORS.whatsapp + ';color:' + COLORS.bg + ';padding:14px 28px;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none',
   footer:     'padding:20px 40px 28px;text-align:center;border-top:1px solid rgba(251,248,238,0.08)',
 }
 
@@ -125,7 +123,6 @@ const S = {
 function buildEmailHtml_(data) {
   const d = {
     nome:      sanitize_(data.nome),
-    email:     sanitize_(data.email),
     telefone:  sanitize_(data.telefone),
     fone:      sanitize_(data.telefone_digits) || sanitize_(data.telefone).replace(/\D/g, ''),
     cidade:    sanitize_(data.cidade),
@@ -166,10 +163,6 @@ function buildEmailHtml_(data) {
         <p style="${S.fieldLabel}">Nome</p>
         <p style="${S.fieldValue}">${d.nome}</p>
       </td></tr>
-      <tr><td style="${S.divider}">
-        <p style="${S.fieldLabel}">E-mail</p>
-        <p style="margin:0;font-size:15px"><a href="mailto:${d.email}" style="color:${COLORS.accent};text-decoration:none;font-weight:500">${d.email}</a></p>
-      </td></tr>
       <tr><td style="padding:14px 0">
         <p style="${S.fieldLabel}">Telefone / WhatsApp</p>
         <p style="margin:0;font-size:15px;color:${COLORS.text};font-weight:500">${d.telefone}</p>
@@ -197,7 +190,6 @@ function buildEmailHtml_(data) {
 
   <tr><td style="padding:32px 40px;text-align:center">
     <a href="https://wa.me/55${d.fone}" style="${S.btnWpp}">Responder no WhatsApp</a>
-    <a href="mailto:${d.email}" style="${S.btnMail}">Responder por e-mail</a>
   </td></tr>
 
   <tr><td style="padding:0 40px 32px">
@@ -232,7 +224,7 @@ function doPost(e) {
     if (data.origem !== 'Site SS Chopp') {
       return jsonResponse_({ ok: false, error: 'invalid_origin' })
     }
-    if (!data.nome || !data.email) {
+    if (!data.nome || !data.telefone) {
       return jsonResponse_({ ok: false, error: 'missing_fields' })
     }
 
@@ -247,7 +239,6 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       sanitize_(data.nome),
-      sanitize_(data.email),
       sanitize_(data.telefone),
       formatEndereco_(data),
       sanitize_(data.quando_precisa),
@@ -265,7 +256,6 @@ function doPost(e) {
         to: NOTIFY_EMAIL,
         subject: '🍺 Novo lead - ' + sanitize_(data.nome) + ' (' + sanitize_(data.cidade) + ')',
         htmlBody: buildEmailHtml_(data),
-        replyTo: sanitize_(data.email),
         name: 'SS Chopp Site',
       })
     } catch (mailErr) {
@@ -287,9 +277,8 @@ function doGet() {
 function testEmail() {
   const fakeData = {
     nome: 'Daniel Teste',
-    email: 'cliente@teste.com',
-    telefone: '(11) 98765-4321',
-    telefone_digits: '11987654321',
+    telefone: '(21) 96846-2709',
+    telefone_digits: '21968462709',
     cep: '01310-100',
     rua: 'Av Paulista',
     numero: '1000',
@@ -309,7 +298,6 @@ function testEmail() {
     to: NOTIFY_EMAIL,
     subject: '🍺 [TESTE] Novo lead - ' + fakeData.nome + ' (' + fakeData.cidade + ')',
     htmlBody: buildEmailHtml_(fakeData),
-    replyTo: fakeData.email,
     name: 'SS Chopp Site',
   })
   console.log('✅ Email de teste enviado para', NOTIFY_EMAIL)

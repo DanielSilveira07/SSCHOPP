@@ -2,7 +2,7 @@
 export const BUSINESS = {
   name: 'SS Chopp',
   tagline: 'Chopp gelado na sua porta, sem preocupações',
-  whatsapp: '5511999999999', // formato internacional, sem '+', sem espaços
+  whatsapp: '5521968462709', // formato internacional, sem '+', sem espaços
   whatsappMessage: 'Olá! Quero um orçamento de chopp para minha festa.',
   email: 'contato@sschopp.com.br',
   instagram: 'https://instagram.com/sschopp',

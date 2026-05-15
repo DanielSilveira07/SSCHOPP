@@ -42,7 +42,6 @@ export default function ContactForm() {
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState(null)
   const [done, setDone] = useState(false)
-  const [doneEmail, setDoneEmail] = useState('')
 
   const [cep, setCep] = useState('')
   const [phone, setPhone] = useState('')
@@ -103,7 +102,6 @@ export default function ContactForm() {
 
       const data = {
         nome:           formData.get('nome'),
-        email:          formData.get('email'),
         telefone,
         telefone_digits: onlyDigits(telefone),
         cep:            formData.get('cep'),
@@ -132,7 +130,6 @@ export default function ContactForm() {
         mode: 'no-cors',
       })
 
-      setDoneEmail(String(data.email || ''))
       setDone(true)
       formRef.current?.reset()
     } catch (error) {
@@ -212,9 +209,7 @@ export default function ContactForm() {
                 Recebemos seu pedido!
               </h3>
               <p className="mt-4 text-foam-50/70 leading-relaxed max-w-md mx-auto">
-                Em até 24 horas você receberá nossa proposta personalizada em{' '}
-                <span className="text-amber-300">{doneEmail}</span>. Enquanto
-                isso, que tal já entrar no nosso WhatsApp?
+                Em até <span className="text-amber-300 font-semibold">24 horas</span> entraremos em contato pelo WhatsApp com a melhor proposta. Enquanto isso, que tal já dar um oi pra agilizar?
               </p>
               <a
                 href={buildWhatsAppUrl()}
@@ -239,15 +234,10 @@ export default function ContactForm() {
               </h3>
 
               <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                <div className="sm:col-span-2">
+                <div>
                   <label htmlFor="nome" className="field-label">Seu Nome</label>
                   <input id="nome" name="nome" type="text" required placeholder="Como podemos te chamar?"
                     className="field-input" autoComplete="name" maxLength={100} disabled={isLoading} />
-                </div>
-                <div>
-                  <label htmlFor="email" className="field-label">E-mail</label>
-                  <input id="email" name="email" type="email" required placeholder="seu@email.com"
-                    className="field-input" autoComplete="email" maxLength={120} disabled={isLoading} />
                 </div>
                 <div>
                   <label htmlFor="telefone" className="field-label">Telefone / WhatsApp</label>
