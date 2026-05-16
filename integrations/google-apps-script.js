@@ -14,7 +14,7 @@
  */
 
 const SHEET_NAME = 'Leads'
-const NOTIFY_EMAIL = 'danielssilveira2002@gmail.com'
+const NOTIFY_EMAIL = 'sschoppexpresso@gmail.com'
 
 const HEADERS = [
   'Data', 'Nome', 'Telefone',
