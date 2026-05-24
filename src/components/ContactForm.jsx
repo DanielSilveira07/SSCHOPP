@@ -4,7 +4,7 @@ import { Check, Send, Loader2, MapPin } from 'lucide-react'
 import { buildWhatsAppUrl } from '../lib/constants.js'
 import { asset } from '../lib/assets.js'
 
-const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbr41nBVRdJpkXLlggldr24PAqM3OYQndhJjOAJghjZPXDK3eSRMAk2yGUaxH3cj8E/exec'
+const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzl3D1KYn1LZxWPOrG0yOcNIE96tsZewa1-UPW0QQkSR0cI_R_yoNqsnHaDV-vI3-ja/exec'
 
 const onlyDigits = (s) => s.replace(/\D/g, '')
 
