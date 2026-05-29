@@ -9,7 +9,7 @@ const BG_POSITION = 'right center'  // 'center' | '50% 30%' | 'right center' | '
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen pt-28 pb-16 overflow-hidden grain-overlay">
+    <section className="relative min-h-[80vh] sm:min-h-screen pt-20 sm:pt-28 pb-12 sm:pb-16 overflow-hidden grain-overlay">
       {/* Atmospheric backdrop */}
       <div className="absolute inset-0 -z-10">
         {/* Camada borrada para preencher as bordas */}
@@ -45,7 +45,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center min-h-[calc(100vh-7rem)]">
+      <div className="container-wide relative z-10 grid lg:grid-cols-12 gap-10 items-center min-h-[calc(80vh-5rem)] sm:min-h-[calc(100vh-7rem)]">
         {/* LEFT: copy */}
         <div className="lg:col-span-10">
           <motion.div
